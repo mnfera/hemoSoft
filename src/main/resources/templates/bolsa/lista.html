@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<!-- 
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" -->
+
+<head>
+<meta charset="UTF-8" />
+<title>Listagem de Bolsas</title>
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="/css/style.css" />
+</head>
+<body>
+
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">Hemo-Soft</a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="#">Inicio</a></li>
+				<li  class="active"><a th:href="@{/bolsas/novo}">Cadastrar Bolsas</a></li>
+				<li><a href="#">Agendamento</a></li>
+			</ul>
+			<button class="btn btn-danger navbar-btn">Sair</button>
+		</div>
+	</nav>
+
+	<div class="alert alert-success" th:if="${!#strings.isEmpty(mensagem)}">
+		<span th:text="${mensagem}">Bolsa salva com sucesso!!!</span>
+	</div>
+
+
+	<div class="panel panel-default">
+		
+		<div class="panel-body">
+			<div class="panel-body">
+
+				<table class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th class="text-center col-md-1">TIPO</th>
+							<th class="text-center col-md-2">QUANTIDADE</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+
+						<tr th:each="bolsa : ${bolsas}">
+							<td class="text-center"><span class="label label-danger"
+								th:text="${bolsa.tipoS.TipoDescricao}"> </span></td>
+							<td class="text-center" th:text="${bolsa.quantidade}"></td>
+
+							<td class="text-center"><a class="btn btn-link btn-xs"
+								th:href="@{/bolsas/{id}(id=${bolsa.id})}"> <span
+									class="glyphicon glyphicon-pencil"></span>
+							</a> <a class="btn btn-link btn-xs" data-toggle="modal"
+								data-target="#ModalExcluir"
+								th:attr="data-id=${bolsa.id}, data-quantidade=${bolsa.quantidade}"> <span
+									class="glyphicon glyphicon-remove"></span>
+							</a></td>
+						</tr>
+
+
+						<tr>
+							<td colspan="6" th:if="${#lists.isEmpty(bolsas)}">Nenhuma
+								bolsa encontrada!</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+
+			<div class="modal fade" id="ModalExcluir" tabindex="-1"
+				data-keyboard="false" data-backdrop="static">
+				<div class="modal-dialog">
+					<form th:attr="data-url-id='/bolsas'" method="POST">
+						<input type="hidden" name="_method" value="DELETE" />
+
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title">Você tem certeza?</h4>
+							</div>
+
+							<div class="modal-body">
+								<span>Tem certeza que deseja apagar a bolsa?</span>
+							</div>
+
+							<div class="modal-footer">
+								<button type="button" class="btn btn-link" data-dismiss="modal">Cancelar</button>
+								<button type="submit" class="btn btn-primary">Excluir</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="/js/jquery-2.1.4.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/hemosoft.js"></script>
+</body>
+</html>
