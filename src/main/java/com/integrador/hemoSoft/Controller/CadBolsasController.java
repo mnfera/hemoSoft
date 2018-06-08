@@ -16,7 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.integrador.hemoSoft.model.Bolsa;
 import com.integrador.hemoSoft.model.TipoSanguineo;
-import com.integrador.hemoSoft.repository.Bolsas;
+import com.integrador.hemoSoft.repository.BolsaRepository;
 import com.integrador.hemoSoft.service.BolsaService;
 
 @Controller
@@ -28,15 +28,18 @@ public class CadBolsasController {
 	
 
 	@Autowired
-	private Bolsas bolsas;
+	private BolsaRepository bolsas;
 	
 	@Autowired
 	private BolsaService service; //	Injeta a classe de serviços
-
+	
+	//Vai para tela de adição de post
 	@RequestMapping("/novo")
-	public ModelAndView novo() {
+	public ModelAndView add(Bolsa bolsa) {
+		
 		ModelAndView mv = new ModelAndView(Tela_Cad_Bolsa);
-		mv.addObject(new Bolsa());
+		mv.addObject("bolsa", bolsa);
+		
 		return mv;
 	}
 	
@@ -70,7 +73,7 @@ public class CadBolsasController {
 	public String excluir(@PathVariable Long id, RedirectAttributes attributes) {
 		bolsas.deleteById(id);
 		attributes.addFlashAttribute("mensagem", "Bolsa excluída com sucesso!");
-		return "redirect:/bolsas";
+		return "redirect:/bolsas/lista";
 	}
 
 	@ModelAttribute("todosTipoS")
