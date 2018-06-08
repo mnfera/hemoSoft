@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.integrador.hemoSoft.model.Bolsa;
 import com.integrador.hemoSoft.model.TipoSanguineo;
 import com.integrador.hemoSoft.repository.Bolsas;
+import com.integrador.hemoSoft.service.BolsaService;
 
 @Controller
 @RequestMapping("/bolsas")
@@ -29,6 +29,9 @@ public class CadBolsasController {
 
 	@Autowired
 	private Bolsas bolsas;
+	
+	@Autowired
+	private BolsaService service; //	Injeta a classe de serviços
 
 	@RequestMapping("/novo")
 	public ModelAndView novo() {
@@ -38,11 +41,10 @@ public class CadBolsasController {
 	}
 	
 	//Vai para tela de listagem de bolsas
-	@GetMapping("/lista")
-	public ModelAndView detail() {		
-		List<Bolsa> todasBolsas = bolsas.findAll();
+	@RequestMapping("/lista")
+	public ModelAndView findAll() {		
 		ModelAndView mv = new ModelAndView(Tela_List_Bolsa);
-		mv.addObject("bolsa", todasBolsas);
+		mv.addObject("bolsas", service.findAll());
 		
 		return mv;
 	}
