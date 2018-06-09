@@ -15,7 +15,7 @@
 			</div>
 			<ul class="nav navbar-nav">
 				<li class="active"><a href="#">Inicio</a></li>
-				<li  class="active"><a th:href="@{/bolsas/novo}">Cadastrar Bolsas</a></li>
+				<li  class="active"><a th:href="@{/bolsas/lista}">Cadastrar Bolsas</a></li>
 				<li><a href="#">Agendamento</a></li>
 			</ul>
 			<button class="btn btn-danger navbar-btn">Sair</button>
@@ -46,11 +46,9 @@
 				<div class="col-lg-4">
 					<div class="col-sm-offset-4">
 						<div class="form-group">
-							<label for="tipoS">Tipo Sanguineo:</label> <select
-								class="form-control" th:field="*{tipoS}">
-								<option th:each="tipoS : ${todosTipoS}" th:value="${tipoS}"
-									th:text="${tipoS.TipoDescricao}"></option>
-							</select>
+							<label for="tipoS">Tipo Sanguineo:</label>
+							<input type="text" class="form-control"
+								th:field="*{tipoS}" th:readOnly="readonly" /> 
 						</div>
 						<div class="form-group"
 							th:classappend="${#fields.hasErrors('quantidade')} ? has-error">

@@ -19,7 +19,7 @@ public class BolsaService {
 		return repository.findAll(); 
 	}
 	
-	//Retorno uma bolsa a partir do ID
+	//Retorna uma bolsa a partir do ID
 	public Bolsa findOne(Long id) {
 		return repository.findById(id).get();
 	}

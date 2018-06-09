@@ -1,7 +1,8 @@
-package com.integrador.hemoSoft.Controller;
+package com.integrador.hemoSoft.controller;
 
 import java.util.Arrays;
 import java.util.List;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,24 +17,18 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.integrador.hemoSoft.model.Bolsa;
 import com.integrador.hemoSoft.model.TipoSanguineo;
-import com.integrador.hemoSoft.repository.BolsaRepository;
 import com.integrador.hemoSoft.service.BolsaService;
-
 @Controller
 @RequestMapping("/bolsas")
-public class CadBolsasController {
+public class BolsaController {
 	
 	private static final String Tela_Cad_Bolsa = "bolsa/cadastro";
-	private static final String Tela_List_Bolsa = "bolsa/lista";
-	
-
-	@Autowired
-	private BolsaRepository bolsas;
+	private static final String Tela_List_Bolsa = "bolsa/lista";	
 	
 	@Autowired
 	private BolsaService service; //	Injeta a classe de serviços
 	
-	//Vai para tela de adição de post
+	//Vai para tela de adição de bolsa
 	@RequestMapping("/novo")
 	public ModelAndView add(Bolsa bolsa) {
 		
@@ -51,28 +46,37 @@ public class CadBolsasController {
 		
 		return mv;
 	}
-
+	
+	//Recebe um objeto preenchido do Thymeleaf e valida 
+	//Se tudo estiver ok, salva e volta para tela de listagem
+	//Se houver erro, retorna para tela atual exibindo as mensagens de erro
 	@RequestMapping(method = RequestMethod.POST)
 	public String salvar(@Validated Bolsa bolsa, Errors errors, RedirectAttributes attributes) {
+		
 		if (errors.hasErrors()) {
 			return Tela_Cad_Bolsa;
 		}
-		bolsas.save(bolsa);
+		
+		service.save(bolsa);
 		attributes.addFlashAttribute("mensagem", "Bolsa Salva com Sucesso!");
-		return "redirect:/bolsas/novo";
+		
+		return "redirect:/bolsas/lista";
 	}
-
+	
+	//Vai para tela de edição (mesma tela de adição, contudo é enviado para a view um objeto que já existe)
 	@RequestMapping("{id}")
-	public ModelAndView edicao(@PathVariable("id") Bolsa bolsa) {
-		ModelAndView mv = new ModelAndView(Tela_Cad_Bolsa);
-		mv.addObject(bolsa);
-		return mv;
+	public ModelAndView edicao(@PathVariable("id") Long id) {
+		
+		return add(service.findOne(id));
 	}
-
+	
+	//Exclui uma bolsa por seu ID e redireciona para a tela de listagem
 	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
 	public String excluir(@PathVariable Long id, RedirectAttributes attributes) {
-		bolsas.deleteById(id);
+		
+		service.delete(id);
 		attributes.addFlashAttribute("mensagem", "Bolsa excluída com sucesso!");
+		
 		return "redirect:/bolsas/lista";
 	}
 
