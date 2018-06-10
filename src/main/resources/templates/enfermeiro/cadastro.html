@@ -3,7 +3,7 @@
 	xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8" />
-<title>Cadastro Doadores</title>
+<title>Cadastro Enfermeiros</title>
 <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="/css/style.css" />
 </head>
@@ -23,11 +23,11 @@
 			<button class="btn btn-danger navbar-btn">Sair</button>
 		</div>
 	</nav>
-	<form class="form-horizontal" method="POST" action="/doadores"
-		th:object="${doador}">
+	<form class="form-horizontal" method="POST" action="/enfermeiros"
+		th:object="${enfermeiro}">
 		<div class="alert alert-success"
 			th:if="${!#strings.isEmpty(mensagem)}">
-			<span th:text="${mensagem}">Doador salvo com sucesso!!!</span>
+			<span th:text="${mensagem}">Enfermeiro salvo com sucesso!!!</span>
 		</div>
 		<div class="alert alert-danger" th:if="${#fields.hasAnyErrors()}">
 			<div th:each="detailedError : ${#fields.detailedErrors()}">
@@ -37,9 +37,9 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<div class="clearfix">
-					<h1 class="panel-title hs-Pdoadores-panel">Novo Doador</h1>
-					<a class="btn btn-link hs-link-panel" href="/doadores/lista">Lista de
-						Doadores</a>
+					<h1 class="panel-title hs-Pdoadores-panel">Novo Enfermeiro</h1>
+					<a class="btn btn-link hs-link-panel" href="/enfermeiros/lista">Lista de
+						Enfermeiros</a>
 				</div>
 			</div>
 			<div class="panel-body">
@@ -49,12 +49,18 @@
 						<div class="form-group"
 							th:classappend="${#fields.hasErrors('nome')} ? has-error">
 							<label for="nome">Nome Completo:</label> <input type="text"
-								placeholder="João alves de lima" class="form-control"
+								placeholder="João Alves de Lima" class="form-control"
 								th:field="*{nome}" />
 						</div>
 						<div class="form-group"
+							th:classappend="${#fields.hasErrors('matricula')} ? has-error">
+							<label for="cpf">Matrícula:</label> <input type="text"
+								placeholder="888.888-88" class="form-control"
+								th:field="*{matricula}" />
+						</div>
+						<div class="form-group"
 							th:classappend="${#fields.hasErrors('cpf')} ? has-error">
-							<label for="cpf">Cpf:</label> <input type="text"
+							<label for="cpf">CPF:</label> <input type="text"
 								placeholder="000.000.000-00" class="form-control"
 								th:field="*{cpf}" />
 						</div>
@@ -84,7 +90,7 @@
 						<div class="form-group"
 							th:classappend="${#fields.hasErrors('cidade')} ? has-error">
 							<label for="cidade">Cidade:</label> <input type="text"
-								placeholder="Pau Dos Ferros" class="form-control"
+								placeholder="Pau dos Ferros" class="form-control"
 								th:field="*{cidade}" />
 						</div>
 					</div>
@@ -94,7 +100,7 @@
 						<div class="form-group"
 							th:classappend="${#fields.hasErrors('endereco')} ? has-error">
 							<label for="endereco">Endereço:</label> <input type="text"
-								placeholder="Rua: Chico cajá" class="form-control"
+								placeholder="Rua Chico Cajá, 10, Centro" class="form-control"
 								th:field="*{endereco}" />
 						</div>
 						<div class="form-group"

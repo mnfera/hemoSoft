@@ -6,7 +6,7 @@
 
 <head>
 <meta charset="UTF-8" />
-<title>Listagem de Bolsas</title>
+<title>Listagem de Enfermeiros</title>
 <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="/css/style.css" />
 </head>
@@ -29,40 +29,58 @@
 	</nav>
 
 	<div class="alert alert-success" th:if="${!#strings.isEmpty(mensagem)}">
-		<span th:text="${mensagem}">Bolsa salva com sucesso!!!</span>
+		<span th:text="${mensagem}">Enfermeiro salvo com sucesso!!!</span>
 	</div>
 
 
 	<div class="panel panel-default">
-		
+		<div class="panel-heading">
+			<div class="clearfix">
+				<h1 class="panel-title hs-Pdoadores-panel">Pesquisa de Doadores</h1>
+				<a class="btn btn-link hs-link-panel" href="/enfermeiros/novo">Novo
+					Enfermeiro</a>
+			</div>
+		</div>
 		<div class="panel-body">
 			<div class="panel-body">
 
 				<table class="table table-bordered table-striped">
 					<thead>
 						<tr>
+							<th class="text-center col-md-2">MATRICULA</th>
+							<th class="text-center col-md-4">NOME</th>
 							<th class="text-center col-md-1">TIPO</th>
-							<th class="text-center col-md-2">QUANTIDADE</th>
+							<th class="text-center col-md-1">SEXO</th>
+							<th class="text-center col-md-1">TELEFONE</th>
+							<th class="text-center col-md-2">CIDADE</th>
 							<th></th>
 						</tr>
 					</thead>
 					<tbody>
 
-						<tr th:each="bolsa : ${bolsas}">
+						<tr th:each="enfermeiro : ${enfermeiros}">
+							<td class="text-center" th:text="${enfermeiro.matricula}"></td>
+							<td class="text-center" th:text="${enfermeiro.nome}"></td>
 							<td class="text-center"><span class="label label-danger"
-								th:text="${bolsa.tipoS.TipoDescricao}"> </span></td>
-							<td class="text-center" th:text="${bolsa.quantidade}"></td>
+								th:text="${enfermeiro.tipoS.TipoDescricao}"> </span></td>
+							<td class="text-center" th:text="${enfermeiro.sexo}"></td>
+							<td class="text-center" th:text="${enfermeiro.telefone}"></td>
+							<td class="text-center" th:text="${enfermeiro.cidade}"></td>
 
 							<td class="text-center"><a class="btn btn-link btn-xs"
-								th:href="@{/bolsas/{id}(id=${bolsa.id})}"> <span
-									class="glyphicon glyphicon-pencil"></span></a>
-							</td>
+								th:href="@{/enfermeiros/{id}(id=${enfermeiro.id})}"> <span
+									class="glyphicon glyphicon-pencil"></span>
+							</a> <a class="btn btn-link btn-xs" data-toggle="modal"
+								data-target="#ModalExcluir"
+								th:attr="data-id=${enfermeiro.id}, data-nome=${enfermeiro.nome}"> <span
+									class="glyphicon glyphicon-remove"></span>
+							</a></td>
 						</tr>
 
 
 						<tr>
-							<td colspan="6" th:if="${#lists.isEmpty(bolsas)}">Nenhuma
-								bolsa encontrada!</td>
+							<td colspan="6" th:if="${#lists.isEmpty(enfermeiros)}">Nenhum
+								enfermeiro encontrado!</td>
 						</tr>
 					</tbody>
 				</table>
@@ -72,7 +90,7 @@
 			<div class="modal fade" id="ModalExcluir" tabindex="-1"
 				data-keyboard="false" data-backdrop="static">
 				<div class="modal-dialog">
-					<form th:attr="data-url-id='/bolsas'" method="POST">
+					<form th:attr="data-url-id='/enfermeiros'" method="POST">
 						<input type="hidden" name="_method" value="DELETE" />
 
 						<div class="modal-content">
@@ -81,7 +99,7 @@
 							</div>
 
 							<div class="modal-body">
-								<span>Tem certeza que deseja apagar a bolsa?</span>
+								<span>Tem certeza que deseja apagar o enfermeiro?</span>
 							</div>
 
 							<div class="modal-footer">
